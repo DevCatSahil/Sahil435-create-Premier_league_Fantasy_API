@@ -1,170 +1,96 @@
 package com.pl.premier_zone.player;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "player_statistic")
 public class Player {
+
     @Id
-    @Column(name = "player_name", unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(unique = true)
     private String name;
 
     private String nation;
     private String position;
     private Integer age;
     private Integer matPlayed;
-    private Integer start;
+    private Integer starts;
     private Double minPlayed;
     private Double goals;
     private Double assists;
-    private Double  penScored;
+    private Double penScored;
     private Double yCards;
     private Double rCards;
     private Double expGoals;
     private Double expAssists;
     private String teamName;
 
-    public Player() {
-    }
+    public Player() {}
 
-    public Player(String name, String nation, String position, Integer age, Integer matPlayed, Integer start, Double minPlayed, Double goals, Double assists, Double penScored, Double yCards, Double rCards, Double expGoals, Double expAssists, String teamName) {
-        this.name = name;
-        this.nation = nation;
-        this.position = position;
-        this.age = age;
-        this.matPlayed = matPlayed;
-        this.start = start;
-        this.minPlayed = minPlayed;
-        this.goals = goals;
-        this.assists = assists;
-        this.penScored = penScored;
-        this.yCards = yCards;
-        this.rCards = rCards;
-        this.expGoals = expGoals;
-        this.expAssists = expAssists;
-        this.teamName = teamName;
-    }
+    // Getters & Setters
 
-    public String getName() {
-        return name;
-    }
+    public Long getId() { return id; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public String getName() { return name; }
 
-    public String getNation() {
-        return nation;
-    }
+    public void setName(String name) { this.name = name; }
 
-    public void setNation(String nation) {
-        this.nation = nation;
-    }
+    public String getNation() { return nation; }
 
-    public String getPosition() {
-        return position;
-    }
+    public void setNation(String nation) { this.nation = nation; }
 
-    public void setPosition(String position) {
-        this.position = position;
-    }
+    public String getPosition() { return position; }
 
-    public Integer getAge() {
-        return age;
-    }
+    public void setPosition(String position) { this.position = position; }
 
-    public void setAge(Integer age) {
-        this.age = age;
-    }
+    public Integer getAge() { return age; }
 
-    public Integer getMatPlayed() {
-        return matPlayed;
-    }
+    public void setAge(Integer age) { this.age = age; }
 
-    public void setMatPlayed(Integer matPlayed) {
-        this.matPlayed = matPlayed;
-    }
+    public Integer getMatPlayed() { return matPlayed; }
 
-    public Integer getStart() {
-        return start;
-    }
+    public void setMatPlayed(Integer matPlayed) { this.matPlayed = matPlayed; }
 
-    public void setStart(Integer start) {
-        this.start = start;
-    }
+    public Integer getStarts() { return starts; }
 
-    public Double getMinPlayed() {
-        return minPlayed;
-    }
+    public void setStarts(Integer starts) { this.starts = starts; }
 
-    public void setMinPlayed(Double minPlayed) {
-        this.minPlayed = minPlayed;
-    }
+    public Double getMinPlayed() { return minPlayed; }
 
-    public Double getGoals() {
-        return goals;
-    }
+    public void setMinPlayed(Double minPlayed) { this.minPlayed = minPlayed; }
 
-    public void setGoals(Double goals) {
-        this.goals = goals;
-    }
+    public Double getGoals() { return goals; }
 
-    public Double getAssists() {
-        return assists;
-    }
+    public void setGoals(Double goals) { this.goals = goals; }
 
-    public void setAssists(Double assists) {
-        this.assists = assists;
-    }
+    public Double getAssists() { return assists; }
 
-    public Double getPenScored() {
-        return penScored;
-    }
+    public void setAssists(Double assists) { this.assists = assists; }
 
-    public void setPenScored(Double penScored) {
-        this.penScored = penScored;
-    }
+    public Double getPenScored() { return penScored; }
 
-    public Double getyCards() {
-        return yCards;
-    }
+    public void setPenScored(Double penScored) { this.penScored = penScored; }
 
-    public void setyCards(Double yCards) {
-        this.yCards = yCards;
-    }
+    public Double getyCards() { return yCards; }
 
-    public Double getrCards() {
-        return rCards;
-    }
+    public void setyCards(Double yCards) { this.yCards = yCards; }
 
-    public void setrCards(Double rCards) {
-        this.rCards = rCards;
-    }
+    public Double getrCards() { return rCards; }
 
-    public Double getExpGoals() {
-        return expGoals;
-    }
+    public void setrCards(Double rCards) { this.rCards = rCards; }
 
-    public void setExpGoals(Double expGoals) {
-        this.expGoals = expGoals;
-    }
+    public Double getExpGoals() { return expGoals; }
 
-    public Double getExpAssists() {
-        return expAssists;
-    }
+    public void setExpGoals(Double expGoals) { this.expGoals = expGoals; }
 
-    public void setExpAssists(Double expAssists) {
-        this.expAssists = expAssists;
-    }
+    public Double getExpAssists() { return expAssists; }
 
-    public String getTeamName() {
-        return teamName;
-    }
+    public void setExpAssists(Double expAssists) { this.expAssists = expAssists; }
 
-    public void setTeamName(String teamName) {
-        this.teamName = teamName;
-    }
+    public String getTeamName() { return teamName; }
+
+    public void setTeamName(String teamName) { this.teamName = teamName; }
 }

@@ -1,13 +1,11 @@
 package com.pl.premier_zone.player;
 
 import jakarta.transaction.Transactional;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
-@Component
+@Service
 public class PlayerService {
 
     private final PlayerRepository playerRepository;
@@ -16,80 +14,71 @@ public class PlayerService {
         this.playerRepository = playerRepository;
     }
 
-    //find all players
-
-    public List<Player> getPlayers(){
+    // Get all players
+    public List<Player> getPlayers() {
         return playerRepository.findAll();
     }
 
-    //get all players from the same team
-    public List<Player> getPlayerFromTeam(String teamName){
-        return playerRepository.findAll().stream()
-                .filter(player -> teamName.equals(player.getTeamName()))
-                .collect(Collectors.toList());
+    // Filters
+    public List<Player> getPlayerFromTeam(String teamName) {
+        return playerRepository.findByTeamNameIgnoreCase(teamName);
     }
 
-    //get specific players by their name
-    public List<Player> getPlayersByName(String searchtext){
-        return playerRepository.findAll().stream()
-                .filter(player -> player.getName().toLowerCase().contains(searchtext.toLowerCase()))
-                .collect(Collectors.toList());
+    public List<Player> getPlayersByName(String name) {
+        return playerRepository.findByNameContainingIgnoreCase(name);
     }
 
-    //get players by position
     public List<Player> getPlayersByPosition(String position) {
-    return playerRepository.findAll().stream()
-            .filter(player -> player.getPosition() != null && player.getPosition().toLowerCase().contains(position.toLowerCase()))
-            .collect(Collectors.toList());
-}
-
-
-
-    //get players by nationality
-    public List<Player> getPlayersByNation(String nation){
-        return playerRepository.findAll().stream()
-                .filter(Player -> Player.getNation().toLowerCase().contains(nation.toLowerCase()))
-                .collect(Collectors.toList());
+        return playerRepository.findByPositionContainingIgnoreCase(position);
     }
 
-    //get players by both team and position
-    public List<Player> getPlayersByPositionAndTeam(String Team, String position){
-        return playerRepository.findAll().stream()
-                .filter(Player -> (Player.getTeamName().equals(Team)) && (Player.getPosition().equals(position)))
-                .collect(Collectors.toList());
+    public List<Player> getPlayersByNation(String nation) {
+        return playerRepository.findByNationContainingIgnoreCase(nation);
     }
 
-    //add player
+    public List<Player> getPlayersByPositionAndTeam(String team, String position) {
+        return playerRepository.findByTeamNameAndPositionAllIgnoreCase(team, position);
+    }
 
-    public Player addPlayer(Player player){
+    // Add
+    public Player addPlayer(Player player) {
         return playerRepository.save(player);
     }
+    public List<Player> addPlayer(List<Player> players) {
+        return playerRepository.saveAll(players);
+    }
 
+    // Update
+    public Player updatePlayer(Long id, Player updatedPlayer) {
+        return playerRepository.findById(id).map(player -> {
 
-    //update player
+            player.setName(updatedPlayer.getName());
+            player.setNation(updatedPlayer.getNation());
+            player.setPosition(updatedPlayer.getPosition());
+            player.setAge(updatedPlayer.getAge());
+            player.setMatPlayed(updatedPlayer.getMatPlayed());
+            player.setStarts(updatedPlayer.getStarts());
+            player.setMinPlayed(updatedPlayer.getMinPlayed());
+            player.setGoals(updatedPlayer.getGoals());
+            player.setAssists(updatedPlayer.getAssists());
+            player.setPenScored(updatedPlayer.getPenScored());
+            player.setyCards(updatedPlayer.getyCards());
+            player.setrCards(updatedPlayer.getrCards());
+            player.setExpGoals(updatedPlayer.getExpGoals());
+            player.setExpAssists(updatedPlayer.getExpAssists());
+            player.setTeamName(updatedPlayer.getTeamName());
 
-        public Player updatePlayer( Player updatedPlayer){
-            Optional<Player> existingPlayer = playerRepository.findByName(updatedPlayer.getName());
+            return playerRepository.save(player);
 
-            if(existingPlayer.isPresent()){
-                Player playerToUpdate = existingPlayer.get();
-                //updating name, position, nation and team
-                playerToUpdate.setName(updatedPlayer.getName());
-                playerToUpdate.setPosition(updatedPlayer.getPosition());
-                playerToUpdate.setNation(updatedPlayer.getNation());
-                playerToUpdate.setTeamName(updatedPlayer.getTeamName());
+        }).orElseThrow(() -> new RuntimeException("Player not found"));
+    }
 
-                //save the updated player
-                return playerRepository.save(playerToUpdate);
-
-            }else{
-                return null;
-            }
+    // Delete
+    @Transactional
+    public void deletePlayer(Long id) {
+        if (!playerRepository.existsById(id)) {
+            throw new RuntimeException("Player not found");
         }
-
-        @Transactional
-        //delete a player
-        public void deletePlayer(String playerName){
-            playerRepository.deleteByName(playerName);
-        }
+        playerRepository.deleteById(id);
+    }
 }
