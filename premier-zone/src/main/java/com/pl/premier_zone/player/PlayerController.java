@@ -40,6 +40,11 @@ public class PlayerController {
         }
     }
 
+    @GetMapping("/players/team/{team}")
+    public List<Player> getByTeam(@PathVariable String team) {
+        return playerService.getPlayerFromTeam(team);
+    }
+
     // POST
     @PostMapping
     public ResponseEntity<Player> addPlayer(@RequestBody Player player) {
