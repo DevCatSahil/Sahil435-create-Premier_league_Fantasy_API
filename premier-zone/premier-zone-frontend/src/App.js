@@ -43,7 +43,7 @@ function makeTheme(dark) {
     accent:      dark ? "#4a90d9" : "#185FA5",
     accentHover: dark ? "#3a7bc8" : "#0C447C",
     danger:      "#E24B4A",
-    success:     dark ? "#3B6D11" : "#3B6D11",
+    success:     "#3B6D11",
     successBg:   dark ? "#1a2e0d" : "#EAF3DE",
     successBdr:  dark ? "#2d4f1a" : "#C0DD97",
     overlay:     "rgba(0,0,0,0.6)",
@@ -68,7 +68,12 @@ function getAvatar(name) {
 function Avatar({ name, size = 28 }) {
   const av = getAvatar(name);
   return (
-    <div style={{ width: size, height: size, borderRadius: "50%", background: av.bg, color: av.fg, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: size * 0.38, fontWeight: 500 }}>
+    <div style={{
+      width: size, height: size, borderRadius: "50%",
+      background: av.bg, color: av.fg, flexShrink: 0,
+      display: "flex", alignItems: "center", justifyContent: "center",
+      fontSize: size * 0.38, fontWeight: 500,
+    }}>
       {av.initials}
     </div>
   );
@@ -77,7 +82,11 @@ function Avatar({ name, size = 28 }) {
 function PositionBadge({ position, dark }) {
   const s = (POS_STYLES[position] || POS_STYLES.MF)[dark ? "dark" : "light"];
   return (
-    <span style={{ background: s.bg, color: s.color, padding: "2px 8px", borderRadius: 20, fontSize: 11, fontWeight: 500, display: "inline-block" }}>
+    <span style={{
+      background: s.bg, color: s.color,
+      padding: "2px 8px", borderRadius: 20,
+      fontSize: 11, fontWeight: 500, display: "inline-block",
+    }}>
       {position}
     </span>
   );
@@ -97,7 +106,11 @@ function StatBar({ value, max, color, t }) {
 
 function StatCard({ label, value, t }) {
   return (
-    <div style={{ background: t.statBg, borderRadius: 8, padding: "12px 16px", flex: 1, minWidth: 100, border: `1px solid ${t.border}` }}>
+    <div style={{
+      background: t.statBg, borderRadius: 8,
+      padding: "12px 16px", flex: 1, minWidth: 100,
+      border: `1px solid ${t.border}`,
+    }}>
       <div style={{ fontSize: 12, color: t.muted, marginBottom: 4 }}>{label}</div>
       <div style={{ fontSize: 22, fontWeight: 500, color: t.text }}>{value}</div>
     </div>
@@ -125,16 +138,19 @@ function DarkToggle({ dark, onToggle, t }) {
   );
 }
 
-// ── Player Form (shared Add + Edit) ───────────────────────────────────────────
+// ── Player Form (shared by Add + Edit) ────────────────────────────────────────
 function PlayerForm({ initial = EMPTY_FORM, onSave, onCancel, submitLabel = "Save player", t }) {
-  const [form, setForm]     = useState(initial);
-  const [errors, setErrors] = useState({});
+  const [form, setForm]       = useState(initial);
+  const [errors, setErrors]   = useState({});
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
   function handleChange(e) {
     const { name, value } = e.target;
-    setForm((f) => ({ ...f, [name]: name === "goals" || name === "assists" ? Number(value) : value }));
+    setForm((f) => ({
+      ...f,
+      [name]: name === "goals" || name === "assists" ? Number(value) : value,
+    }));
     setErrors((err) => ({ ...err, [name]: "" }));
   }
 
@@ -207,14 +223,23 @@ function PlayerForm({ initial = EMPTY_FORM, onSave, onCancel, submitLabel = "Sav
           {errors.assists && <span style={err}>{errors.assists}</span>}
         </div>
       </div>
+
       <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 18 }}>
-        <button onClick={onCancel} style={{ padding: "8px 18px", border: `1px solid ${t.border}`, borderRadius: 8, background: "transparent", color: t.muted, fontSize: 14, cursor: "pointer" }}>
+        <button
+          onClick={onCancel}
+          style={{ padding: "8px 18px", border: `1px solid ${t.border}`, borderRadius: 8, background: "transparent", color: t.muted, fontSize: 14, cursor: "pointer" }}
+        >
           Cancel
         </button>
-        <button onClick={handleSubmit} disabled={loading || success} style={{ padding: "8px 18px", border: "none", borderRadius: 8, background: success ? t.success : t.accent, color: "#fff", fontSize: 14, fontWeight: 500, cursor: "pointer", opacity: loading ? 0.7 : 1, transition: "background 0.2s" }}>
+        <button
+          onClick={handleSubmit}
+          disabled={loading || success}
+          style={{ padding: "8px 18px", border: "none", borderRadius: 8, background: success ? t.success : t.accent, color: "#fff", fontSize: 14, fontWeight: 500, cursor: "pointer", opacity: loading ? 0.7 : 1, transition: "background 0.2s" }}
+        >
           {success ? "✓ Saved!" : loading ? "Saving…" : submitLabel}
         </button>
       </div>
+
       {success && (
         <div style={{ marginTop: 12, padding: "10px 14px", background: t.successBg, border: `1px solid ${t.successBdr}`, borderRadius: 8, fontSize: 13, color: t.success }}>
           {submitLabel === "Update player" ? "Player updated!" : "Player added successfully!"}
@@ -238,7 +263,10 @@ function AddPlayerPanel({ onAdd, t }) {
     <div style={{ border: `1px solid ${t.border}`, borderRadius: 12, padding: "1.25rem 1.5rem", marginBottom: 24, background: t.card }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <span style={{ fontSize: 15, fontWeight: 500, color: t.text }}>Add new player</span>
-        <button onClick={() => setOpen((o) => !o)} style={{ padding: "6px 14px", fontSize: 13, border: `1px solid ${t.border}`, borderRadius: 8, background: open ? t.surface : t.card, cursor: "pointer", color: t.text }}>
+        <button
+          onClick={() => setOpen((o) => !o)}
+          style={{ padding: "6px 14px", fontSize: 13, border: `1px solid ${t.border}`, borderRadius: 8, background: open ? t.surface : t.card, cursor: "pointer", color: t.text }}
+        >
           {open ? "— Close" : "+ Add player"}
         </button>
       </div>
@@ -365,7 +393,7 @@ function DeleteModal({ player, onConfirm, onClose, t }) {
 }
 
 // ── Main App ───────────────────────────────────────────────────────────────────
-export default function App() {
+export default function App({ username, onLogout }) {
   const [dark, setDark] = useState(() => {
     try { return localStorage.getItem("plDark") === "true"; } catch { return false; }
   });
@@ -379,7 +407,6 @@ export default function App() {
     });
   }
 
-  // Apply bg to document body so no white flash outside the app div
   useEffect(() => {
     document.body.style.background = t.bg;
     document.body.style.margin = "0";
@@ -434,42 +461,91 @@ export default function App() {
     color: t.muted, cursor: "pointer", userSelect: "none", whiteSpace: "nowrap",
     background: t.surface, borderBottom: `1px solid ${t.border}`,
   };
-  const tdStyle = { padding: "11px 14px", borderTop: `1px solid ${t.borderLight}`, fontSize: 14, color: t.text };
-
+  const tdStyle  = { padding: "11px 14px", borderTop: `1px solid ${t.borderLight}`, fontSize: 14, color: t.text };
   const selStyle = { padding: "8px 12px", border: `1px solid ${t.border}`, borderRadius: 8, fontSize: 14, minWidth: 150, background: t.inputBg, color: t.inputText };
 
   return (
     <div style={{ padding: "24px", fontFamily: "system-ui, sans-serif", maxWidth: 920, margin: "0 auto", background: t.bg, minHeight: "100vh", transition: "background 0.25s, color 0.25s" }}>
 
-      {/* Header */}
+      {/* ── Header ── */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
+
+        {/* Left: logo + title */}
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{ width: 36, height: 36, background: dark ? "#1a2a40" : "#EFF6FF", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18 }}>⚽</div>
+          <div style={{ width: 36, height: 36, background: dark ? "#1a2a40" : "#EFF6FF", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18 }}>
+            ⚽
+          </div>
           <div>
-            <h1 style={{ fontSize: 20, fontWeight: 500, margin: 0, color: t.text }}>Premier League Players</h1>
-            <p style={{ fontSize: 13, color: t.muted, margin: 0 }}>{players.length} players · {teams.length} teams</p>
+            <h1 style={{ fontSize: 20, fontWeight: 500, margin: 0, color: t.text }}>Premier Zone</h1>
+            <p style={{ fontSize: 13, color: t.muted, margin: 0 }}>
+              {players.length} players · {teams.length} teams
+            </p>
           </div>
         </div>
-        <DarkToggle dark={dark} onToggle={toggleDark} t={t} />
+
+        {/* Right: dark toggle + user badge + sign out */}
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <DarkToggle dark={dark} onToggle={toggleDark} t={t} />
+
+          {/* Logged-in user badge */}
+          <div style={{
+            display: "flex", alignItems: "center", gap: 8,
+            padding: "5px 12px 5px 6px",
+            border: `1px solid ${t.border}`,
+            borderRadius: 20,
+            background: t.surface,
+          }}>
+            <div style={{
+              width: 24, height: 24, borderRadius: "50%",
+              background: "#B5D4F4", color: "#0C447C",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontSize: 11, fontWeight: 500, flexShrink: 0,
+            }}>
+              {username?.[0]?.toUpperCase()}
+            </div>
+            <span style={{ fontSize: 13, color: t.text }}>{username}</span>
+          </div>
+
+          {/* Sign out */}
+          <button
+            onClick={onLogout}
+            onMouseEnter={(e) => e.currentTarget.style.color = t.danger}
+            onMouseLeave={(e) => e.currentTarget.style.color = t.muted}
+            style={{
+              padding: "6px 14px", fontSize: 13,
+              border: `1px solid ${t.border}`,
+              borderRadius: 8,
+              background: "transparent",
+              color: t.muted,
+              cursor: "pointer",
+              transition: "color 0.15s",
+            }}
+          >
+            Sign out
+          </button>
+        </div>
       </div>
 
-      {/* Stat Cards */}
+      {/* ── Stat Cards ── */}
       <div style={{ display: "flex", gap: 10, marginBottom: 24, flexWrap: "wrap" }}>
-        <StatCard label="Total players" value={players.length} t={t} />
-        <StatCard label="Teams" value={teams.length} t={t} />
-        <StatCard label="Total goals" value={players.reduce((s, p) => s + p.goals, 0)} t={t} />
+        <StatCard label="Total players" value={players.length}                              t={t} />
+        <StatCard label="Teams"         value={teams.length}                                t={t} />
+        <StatCard label="Total goals"   value={players.reduce((s, p) => s + p.goals, 0)}   t={t} />
         <StatCard label="Total assists" value={players.reduce((s, p) => s + p.assists, 0)} t={t} />
       </div>
 
-      {/* Add Player */}
+      {/* ── Add Player ── */}
       <AddPlayerPanel onAdd={(p) => setPlayers((prev) => [p, ...prev])} t={t} />
 
-      {/* Filters */}
+      {/* ── Filters ── */}
       <div style={{ display: "flex", gap: 10, marginBottom: 20, flexWrap: "wrap" }}>
         <div style={{ position: "relative", flex: 1, minWidth: 180 }}>
           <span style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", color: t.hint, fontSize: 14 }}>🔍</span>
-          <input type="text" placeholder="Search player…" value={search} onChange={(e) => setSearch(e.target.value)}
-            style={{ width: "100%", padding: "8px 12px 8px 32px", border: `1px solid ${t.border}`, borderRadius: 8, fontSize: 14, outline: "none", background: t.inputBg, color: t.inputText, boxSizing: "border-box" }} />
+          <input
+            type="text" placeholder="Search player…" value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            style={{ width: "100%", padding: "8px 12px 8px 32px", border: `1px solid ${t.border}`, borderRadius: 8, fontSize: 14, outline: "none", background: t.inputBg, color: t.inputText, boxSizing: "border-box" }}
+          />
         </div>
         <select value={teamFilter} onChange={(e) => setTeamFilter(e.target.value)} style={selStyle}>
           <option value="">All teams</option>
@@ -484,7 +560,7 @@ export default function App() {
         </select>
       </div>
 
-      {/* Table */}
+      {/* ── Table ── */}
       <div style={{ border: `1px solid ${t.border}`, borderRadius: 12, overflow: "hidden" }}>
         <table style={{ width: "100%", borderCollapse: "collapse" }}>
           <thead>
@@ -499,9 +575,14 @@ export default function App() {
           </thead>
           <tbody>
             {filtered.length === 0 ? (
-              <tr><td colSpan={6} style={{ ...tdStyle, textAlign: "center", padding: "2.5rem", color: t.hint }}>No players match your filters.</td></tr>
+              <tr>
+                <td colSpan={6} style={{ ...tdStyle, textAlign: "center", padding: "2.5rem", color: t.hint }}>
+                  No players match your filters.
+                </td>
+              </tr>
             ) : filtered.map((p) => (
-              <tr key={p.id}
+              <tr
+                key={p.id}
                 onMouseEnter={(e) => e.currentTarget.style.background = t.surface}
                 onMouseLeave={(e) => e.currentTarget.style.background = ""}
               >
@@ -513,14 +594,20 @@ export default function App() {
                 </td>
                 <td style={{ ...tdStyle, color: t.muted }}>{p.teamName}</td>
                 <td style={tdStyle}><PositionBadge position={p.position} dark={dark} /></td>
-                <td style={tdStyle}><StatBar value={p.goals} max={maxGoals} color="#D85A30" t={t} /></td>
+                <td style={tdStyle}><StatBar value={p.goals}   max={maxGoals}   color="#D85A30" t={t} /></td>
                 <td style={tdStyle}><StatBar value={p.assists} max={maxAssists} color="#378ADD" t={t} /></td>
                 <td style={tdStyle}>
                   <div style={{ display: "flex", gap: 6 }}>
-                    <button title="Edit" onClick={() => setEditPlayer(p)}
-                      style={{ padding: "4px 10px", fontSize: 12, border: `1px solid ${t.border}`, borderRadius: 6, background: "transparent", cursor: "pointer", color: t.text }}>✏</button>
-                    <button title="Delete" onClick={() => setDeletePlayer(p)}
-                      style={{ padding: "4px 10px", fontSize: 12, border: "1px solid #7f1d1d", borderRadius: 6, background: "transparent", cursor: "pointer", color: t.danger }}>✕</button>
+                    <button
+                      title="Edit"
+                      onClick={() => setEditPlayer(p)}
+                      style={{ padding: "4px 10px", fontSize: 12, border: `1px solid ${t.border}`, borderRadius: 6, background: "transparent", cursor: "pointer", color: t.text }}
+                    >✏</button>
+                    <button
+                      title="Delete"
+                      onClick={() => setDeletePlayer(p)}
+                      style={{ padding: "4px 10px", fontSize: 12, border: "1px solid #7f1d1d", borderRadius: 6, background: "transparent", cursor: "pointer", color: t.danger }}
+                    >✕</button>
                   </div>
                 </td>
               </tr>
@@ -533,9 +620,33 @@ export default function App() {
         Showing {filtered.length} of {players.length} players
       </p>
 
-      {detailPlayer && <DetailModal player={detailPlayer} maxGoals={maxGoals} maxAssists={maxAssists} onEdit={() => { setEditPlayer(detailPlayer); setDetailPlayer(null); }} onClose={() => setDetailPlayer(null)} t={t} dark={dark} />}
-      {editPlayer   && <EditModal   player={editPlayer}   onSave={(u) => setPlayers((prev) => prev.map((p) => p.id === u.id ? u : p))} onClose={() => setEditPlayer(null)} t={t} />}
-      {deletePlayer && <DeleteModal player={deletePlayer} onConfirm={(id) => setPlayers((prev) => prev.filter((p) => p.id !== id))} onClose={() => setDeletePlayer(null)} t={t} />}
+      {/* ── Modals ── */}
+      {detailPlayer && (
+        <DetailModal
+          player={detailPlayer}
+          maxGoals={maxGoals}
+          maxAssists={maxAssists}
+          onEdit={() => { setEditPlayer(detailPlayer); setDetailPlayer(null); }}
+          onClose={() => setDetailPlayer(null)}
+          t={t} dark={dark}
+        />
+      )}
+      {editPlayer && (
+        <EditModal
+          player={editPlayer}
+          onSave={(u) => setPlayers((prev) => prev.map((p) => p.id === u.id ? u : p))}
+          onClose={() => setEditPlayer(null)}
+          t={t}
+        />
+      )}
+      {deletePlayer && (
+        <DeleteModal
+          player={deletePlayer}
+          onConfirm={(id) => setPlayers((prev) => prev.filter((p) => p.id !== id))}
+          onClose={() => setDeletePlayer(null)}
+          t={t}
+        />
+      )}
     </div>
   );
 }

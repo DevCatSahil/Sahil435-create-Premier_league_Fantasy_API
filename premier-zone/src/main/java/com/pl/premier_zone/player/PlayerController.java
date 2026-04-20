@@ -8,7 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/player")
-@CrossOrigin(origins = "http://localhost:3000") // React connection
+//@CrossOrigin(origins = "http://localhost:3000") // React connection
 public class PlayerController {
 
     private final PlayerService playerService;
